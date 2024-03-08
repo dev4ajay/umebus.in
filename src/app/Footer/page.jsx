@@ -4,14 +4,14 @@ import { IoLogoFacebook } from "react-icons/io5";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 
-const Page = () => {
+const page = () => {
   return (
     <section className="main-footer mt-5">
       <div className="container footer-section">
         <div className='row'>
           <div className='col-lg-4'>
             <span className='logo-heading'>UME</span><span className="heading-span">BUS</span>     
-            <p>redBus is the world&apos;s largest online bus ticket booking service trusted by over 25 million happy customers globally. redBus offers bus ticket booking through its website, iOS and Android mobile apps for all major routes.</p>
+            <p>redBus is the world's largest online bus ticket booking service trusted by over 25 million happy customers globally. redBus offers bus ticket booking through its website, iOS and Android mobile apps for all major routes.</p>
           </div>
           <div className='col-lg-2'>
             <h5>About redBus</h5>
@@ -26,7 +26,7 @@ const Page = () => {
           </div>
           <div className='col-lg-2'>
             <h5>Info</h5>
-            <p>T&amp;C</p>     
+            <p>T&C</p>     
             <p>Privacy policy</p>    
             <p>FAQ</p>    
             <p>Blog</p>    
@@ -53,7 +53,7 @@ const Page = () => {
         </div>
         <hr/>
         <div className="d-flex justify-between">
-          <p>© Copyright <span className='logo-heading'>UME</span><span className="heading-span">BUS</span> All Rights Reserved</p>
+          <p>Copyright <span className='logo-heading'>UME</span><span className="heading-span">BUS</span> All Rights Reserved</p>
           <div className="d-flex gap-3 fs-3">
             <FaInstagram/>
             <IoLogoFacebook/>
@@ -66,4 +66,4 @@ const Page = () => {
   );
 }
 
-export default Page;
+export default page;
