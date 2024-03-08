@@ -1,8 +1,7 @@
 import React from 'react';
-import { FaInstagram } from "react-icons/fa";
-import { IoLogoFacebook } from "react-icons/io5";
-import { FaTwitter } from "react-icons/fa";
-import { FaLinkedinIn } from "react-icons/fa";
+
+import { FaFacebookSquare  , FaInstagram  , FaTwitter ,FaLinkedin } from "react-icons/fa";
+
 
 const page = () => {
   return (
@@ -56,8 +55,8 @@ const page = () => {
           <p>Copyright <span className='logo-heading'>UME</span><span className="heading-span">BUS</span> All Rights Reserved</p>
           <div className="d-flex gap-3 fs-3">
             <FaInstagram/>
-            <IoLogoFacebook/>
-            <FaLinkedinIn/>
+            <FaFacebookSquare/>
+            <FaLinkedin/>
             <FaTwitter/>
           </div>
         </div>
