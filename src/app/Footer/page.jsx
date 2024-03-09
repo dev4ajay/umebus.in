@@ -2,7 +2,6 @@ import React from 'react';
 
 import { FaFacebookSquare  , FaInstagram  , FaTwitter ,FaLinkedin } from "react-icons/fa";
 
-
 const page = () => {
   return (
     <section className="main-footer mt-5">
@@ -10,10 +9,10 @@ const page = () => {
         <div className='row'>
           <div className='col-lg-4'>
             <span className='logo-heading'>UME</span><span className="heading-span">BUS</span>     
-            <p>redBus is the world's largest online bus ticket booking service trusted by over 25 million happy customers globally. redBus offers bus ticket booking through its website, iOS and Android mobile apps for all major routes.</p>
+            <p className="text-justify">redBus is the world's largest online bus ticket booking service trusted by over 25 million happy customers globally. redBus offers bus ticket booking through its website, iOS and Android mobile apps for all major routes.</p>
           </div>
           <div className='col-lg-2'>
-            <h5>About redBus</h5>
+            <h5 className="font-bold">About redBus</h5>
             <p>About us</p>     
             <p>Investor Relations</p>    
             <p>Contact us</p>    
@@ -24,7 +23,7 @@ const page = () => {
             <p>Career</p>    
           </div>
           <div className='col-lg-2'>
-            <h5>Info</h5>
+            <h5 className="font-bold">Info</h5>
             <p>T&C</p>     
             <p>Privacy policy</p>    
             <p>FAQ</p>    
@@ -35,7 +34,7 @@ const page = () => {
             <p>User agreement</p>    
           </div>
           <div className='col-lg-2'>
-            <h5>Global Sites</h5>
+            <h5 className="font-bold">Global Sites</h5>
             <p>India</p>     
             <p>Singapore</p>    
             <p>Malaysia</p>    
@@ -44,7 +43,7 @@ const page = () => {
             <p>Colombia</p>    
           </div>
           <div className='col-lg-2'>
-            <h5>Our Partners</h5>
+            <h5 className="font-bold">Our Partners</h5>
             <p>Goibibo Bus</p>     
             <p>Goibibo Hotels</p>    
             <p>Makemytrip Hotels</p>    

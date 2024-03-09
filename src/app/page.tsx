@@ -6,7 +6,7 @@ import Umebus from "./Umebus/page";
 import Faq from "./Faq/page";
 import Umebusapp from "./Umebusapp/page"
 import Justbus from "./Justbus/page"
-import Footer from "./Footer/page"
+import Footer from "./Footer/page";
 
 export default function Home() {
   return (

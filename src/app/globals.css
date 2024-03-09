@@ -91,6 +91,11 @@ a {
   color: #47b2e4;
 }
 
+.main-button button{
+  color:black !important;
+  background:green !important;
+  
+}
 
 /**
 * Mobile Navigation 
