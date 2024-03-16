@@ -1,35 +1,34 @@
+"use client"
 import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
-import { BiHide } from "react-icons/bi";
-import { BiShow } from "react-icons/bi";
+import { Modal, Button, Form, InputGroup } from 'react-bootstrap';
+import { BiHide, BiShow } from "react-icons/bi";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useRouter } from 'next/router';
 import { BaseUrl } from './../Baseurl';
+
 function Page() {
+
   const [showSignup, setShowSignup] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showPNR, setShowPNR] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to control password visibility
   const [forgotPassword, setForgotPassword] = useState(false); // State for forgot password
 
-const [formData , setFormData] = useState({
-  name:"",
-  email:"",
-  password:""
-})
-const [values , setValue] = useState({
-  password:"",
-  email:"",
-})  
-const [Value , setValues] = useState({
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: ""
+  });
 
-  email:"",
-})  
-const handleCloseSignup = () => setShowSignup(false);
+  const [values, setValues] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleCloseSignup = () => setShowSignup(false);
   const handleShowSignup = () => setShowSignup(true);
   const handleClosePNR = () => setShowPNR(false);
   const handleShowPNR = () => setShowPNR(true);
@@ -38,21 +37,17 @@ const handleCloseSignup = () => setShowSignup(false);
   const handleCloseLogin = () => {
     setShowLogin(false);
     setShowPassword(false); // Reset showPassword state when closing the modal
-
-
   };
- 
+
   const handleShowLogin = () => setShowLogin(true);
-  // const handleShowForgot = () => setForgotPassword(true);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
- 
 
   const handleSubmitSignup = async (e) => {
-    e.preventDefault();   
-  
+    e.preventDefault();
+
     if (formData.name === '' || formData.email === '' || formData.password === '') {
       Swal.fire({
         icon: "error",
@@ -60,88 +55,97 @@ const handleCloseSignup = () => setShowSignup(false);
       });
       return;
     }
-  
-    await axios.post(`${BaseUrl}/register`, formData).then((res)=>{
-      console.log(res);
-      setFormData(res.data.user);
+
+    try {
+      const response = await axios.post(`${BaseUrl}/register`, formData);
+      console.log(response);
+      setFormData(response.data.user);
       // Reset form data
       setFormData({
         password: "",
         name: "",
         email: ""
       });
-      if(res.status === 201){
+      if (response.status === 201) {
         Swal.fire({
           icon: "success",
           text: "! Register successfully !",
         });
         handleCloseSignup()
       }
-    });
+    } catch (error) {
+      console.error("Error occurred while submitting signup:", error);
+      // Handle error scenario
+    }
   };
-  
-  const handleSubmitLogin = (e) => {
+
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
-  
-    if (values.name === '' || values.email === '') {
+
+    if (values.email === '' || values.password === '') {
       Swal.fire({
         icon: "error",
         text: "Please check all details",
       });
       return;
     }
-  
-    axios.post(`${BaseUrl}/login`, values)
-      .then((response) => {
-        console.log(response);
-        setValue(response.data.user);
-        // Reset form data
-        setValue({
-          email: "",
-          password: ""
-        });
 
-        if(response.status === 200){
-          Swal.fire({
-            icon: "success",
-            text: "! login successfully !",
-          });
-          handleCloseLogin();
-        }
+    try {
+      const response = await axios.post(`${BaseUrl}/login`, values);
+      console.log(response);
+      setValues(response.data.user);
+      // Reset form data
+      setValues({
+        email: "",
+        password: ""
       });
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          text: "! Login successfully !",
+        });
+        handleCloseLogin();
+      }
+    } catch (error) {
+      console.error("Error occurred while submitting login:", error);
+      // Handle error scenario
+    }
   };
 
-  const handleSubmitForgot = (e) => {
+  const handleSubmitForgot = async (e) => {
     e.preventDefault();
-  
-    if (Value.email === '') {
+
+    if (values.email === '') {
       Swal.fire({
         icon: "error",
         text: "Please check all details",
       });
       return;
     }
-  
-    axios.post(`${BaseUrl}/forgot-password`, Value)
-      .then((response) => {
-        console.log(response);
-        setValue(response.data.user);
-        // Reset form data
-        setValue({
-          email: "",
-          password: ""
-        });
 
-        if(response.status === 200){
-          Swal.fire({
-            icon: "success",
-            text: "! Forgotpassword successfully !",
-          });
-          handleCloseLogin();
-        }
+    try {
+      const response = await axios.post(`${BaseUrl}/forgot-password`, values);
+      console.log(response);
+      setValues(response.data.user);
+      // Reset form data
+      setValues({
+        email: "",
+        password: ""
       });
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          text: "! Forgot password successfully !",
+        });
+        handleCloseLogin();
+      }
+    } catch (error) {
+      console.error("Error occurred while submitting forgot password:", error);
+      // Handle error scenario
+    }
   };
-  
   
   
   return (
@@ -302,4 +306,4 @@ const handleCloseSignup = () => setShowSignup(false);
   );
 }
 
-export default Page;
+export default  Page;
