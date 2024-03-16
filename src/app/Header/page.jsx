@@ -14,7 +14,7 @@ function Page() {
   const [showLogin, setShowLogin] = useState(false);
   const [showPNR, setShowPNR] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to control password visibility
-  // const [forgotPassword, setForgotPassword] = useState(false); // State for forgot password
+  const [forgotPassword, setForgotPassword] = useState(false); // State for forgot password
 
 const [formData , setFormData] = useState({
   name:"",
@@ -25,17 +25,25 @@ const [values , setValue] = useState({
   password:"",
   email:"",
 })  
+const [Value , setValues] = useState({
+
+  email:"",
+})  
 const handleCloseSignup = () => setShowSignup(false);
   const handleShowSignup = () => setShowSignup(true);
   const handleClosePNR = () => setShowPNR(false);
   const handleShowPNR = () => setShowPNR(true);
+  const handleCloseForgot = () => setForgotPassword(false);
+  const handleShowForgots = () => setForgotPassword(true);
   const handleCloseLogin = () => {
     setShowLogin(false);
     setShowPassword(false); // Reset showPassword state when closing the modal
-    // setForgotPassword(false); // Reset forgotPassword state
+
 
   };
+ 
   const handleShowLogin = () => setShowLogin(true);
+  // const handleShowForgot = () => setForgotPassword(true);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -52,26 +60,33 @@ const handleCloseSignup = () => setShowSignup(false);
       });
       return;
     }
-   await axios.post(`${BaseUrl}/register`, formData).then((res)=>{
+  
+    await axios.post(`${BaseUrl}/register`, formData).then((res)=>{
       console.log(res);
-      setFormData(res.data.user)
-    })
+      setFormData(res.data.user);
       // Reset form data
       setFormData({
         password: "",
         name: "",
         email: ""
       });
-    
+      if(res.status === 201){
+        Swal.fire({
+          icon: "success",
+          text: "! Register successfully !",
+        });
+        handleCloseSignup()
+      }
+    });
   };
   
   const handleSubmitLogin = (e) => {
     e.preventDefault();
   
-    if (!values.email === '' || !values.password === '') {
+    if (values.name === '' || values.email === '') {
       Swal.fire({
         icon: "error",
-        text: "Please fill in all fields.",
+        text: "Please check all details",
       });
       return;
     }
@@ -79,9 +94,54 @@ const handleCloseSignup = () => setShowSignup(false);
     axios.post(`${BaseUrl}/login`, values)
       .then((response) => {
         console.log(response);
-        setValue(response.data.user)
-    
-  })}
+        setValue(response.data.user);
+        // Reset form data
+        setValue({
+          email: "",
+          password: ""
+        });
+
+        if(response.status === 200){
+          Swal.fire({
+            icon: "success",
+            text: "! login successfully !",
+          });
+          handleCloseLogin();
+        }
+      });
+  };
+
+  const handleSubmitForgot = (e) => {
+    e.preventDefault();
+  
+    if (Value.email === '') {
+      Swal.fire({
+        icon: "error",
+        text: "Please check all details",
+      });
+      return;
+    }
+  
+    axios.post(`${BaseUrl}/forgot-password`, Value)
+      .then((response) => {
+        console.log(response);
+        setValue(response.data.user);
+        // Reset form data
+        setValue({
+          email: "",
+          password: ""
+        });
+
+        if(response.status === 200){
+          Swal.fire({
+            icon: "success",
+            text: "! Forgotpassword successfully !",
+          });
+          handleCloseLogin();
+        }
+      });
+  };
+  
   
   
   return (
@@ -151,7 +211,6 @@ const handleCloseSignup = () => setShowSignup(false);
           </Button>
         </Modal.Footer>
       </Modal>
-
       <Modal show={showLogin} onHide={handleCloseLogin}>
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
@@ -178,13 +237,38 @@ const handleCloseSignup = () => setShowSignup(false);
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
-         
-            
+            {setForgotPassword === setForgotPassword ? <Button variant="link" onClick={handleShowForgots}>Forgot Password?</Button>  :""}
+                      
            
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseLogin}>
+            Close
+          </Button>
+          <Button variant="primary" type="submit" onClick={handleSubmitLogin}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={forgotPassword} onHide={handleCloseForgot}>
+        <Modal.Header closeButton>
+          <Modal.Title>ForgotPassword</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="container mt-3 mb-3" >
+            <Form.Group controlId="formBasicEmail" className="col col-sm-12 mt-3 mb-2">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" name="email" onChange={(e=>setValues({...Value, email:e.target.value}))} className="form-control" placeholder="Enter Your Email" />
+            </Form.Group>
+        
+
+            
+    
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseForgot}>
             Close
           </Button>
           <Button variant="primary" type="submit" onClick={handleSubmitLogin}>
