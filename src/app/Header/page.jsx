@@ -23,17 +23,26 @@ function Page() {
     password: ""
   });
 
-  const [values, setValues] = useState({
+  const [LoginValue, setLoginValues] = useState({
     email: "",
-    password: ""
+    password: "",
   });
+  const [Value , setValue ] = useState({
+    email:"",
+  })
 
   const handleCloseSignup = () => setShowSignup(false);
   const handleShowSignup = () => setShowSignup(true);
   const handleClosePNR = () => setShowPNR(false);
   const handleShowPNR = () => setShowPNR(true);
   const handleCloseForgot = () => setForgotPassword(false);
-  const handleShowForgots = () => setForgotPassword(true);
+ 
+
+  const handleShowForgots = ()=> {
+setForgotPassword(true)
+setShowLogin(false);
+
+  }
   const handleCloseLogin = () => {
     setShowLogin(false);
     setShowPassword(false); // Reset showPassword state when closing the modal
@@ -82,7 +91,7 @@ function Page() {
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
 
-    if (values.email === '' || values.password === '') {
+    if (LoginValue.email === '' || LoginValue.password === '') {
       Swal.fire({
         icon: "error",
         text: "Please check all details",
@@ -91,11 +100,11 @@ function Page() {
     }
 
     try {
-      const response = await axios.post(`${BaseUrl}/login`, values);
+      const response = await axios.post(`${BaseUrl}/login`, LoginValue);
       console.log(response);
-      setValues(response.data.user);
+      setLoginValues(response.data.user);
       // Reset form data
-      setValues({
+      setLoginValues({
         email: "",
         password: ""
       });
@@ -107,6 +116,7 @@ function Page() {
         });
         handleCloseLogin();
       }
+   
     } catch (error) {
       console.error("Error occurred while submitting login:", error);
       // Handle error scenario
@@ -116,7 +126,7 @@ function Page() {
   const handleSubmitForgot = async (e) => {
     e.preventDefault();
 
-    if (values.email === '') {
+    if (Value.email === '') {
       Swal.fire({
         icon: "error",
         text: "Please check all details",
@@ -125,13 +135,13 @@ function Page() {
     }
 
     try {
-      const response = await axios.post(`${BaseUrl}/forgot-password`, values);
+      const response = await axios.post(`${BaseUrl}/forgot-password`, Value);
       console.log(response);
-      setValues(response.data.user);
+      setValue(response.data.user);
       // Reset form data
-      setValues({
+      setValue({
         email: "",
-        password: ""
+      
       });
 
       if (response.status === 200) {
@@ -145,9 +155,17 @@ function Page() {
       console.error("Error occurred while submitting forgot password:", error);
       // Handle error scenario
     }
+    if (response.status === 400) {
+      Swal.fire({
+        icon: "success",
+        text: "!please check your  email is not login !",
+      });
+ 
+    }
+ 
   };
   
-  
+
   return (
     <>
       <Navbar expand="lg" className="fixed-top header-scrolled">
@@ -215,6 +233,7 @@ function Page() {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <Modal show={showLogin} onHide={handleCloseLogin}>
         <Modal.Header closeButton>
           <Modal.Title>Login</Modal.Title>
@@ -223,7 +242,7 @@ function Page() {
           <form className="container mt-3 mb-3" >
             <Form.Group controlId="formBasicEmail" className="col col-sm-12 mt-3 mb-2">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" name="email" onChange={(e=>setValue({...values, email:e.target.value}))} className="form-control" placeholder="Enter Your Email" />
+              <Form.Control type="email" name="email"   onChange={(e=>setLoginValues({...LoginValue, email:e.target.value}))} className="form-control" placeholder="Enter Your Email" />
             </Form.Group>
             <Form.Group controlId="formBasicPassword" className="col col-sm-12 mt-3 mb-2">
               <Form.Label>Password</Form.Label>
@@ -232,7 +251,7 @@ function Page() {
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   // value={values.password}
-                  onChange={(e=>setValue({...values, password:e.target.value}))}
+                  onChange={(e=>setLoginValues({...LoginValue, password:e.target.value}))}
                   className="form-control"
                   placeholder="Enter Password"
                 />
@@ -241,7 +260,7 @@ function Page() {
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
-            {setForgotPassword === setForgotPassword ? <Button variant="link" onClick={handleShowForgots}>Forgot Password?</Button>  :""}
+            <Button variant="link" className='text-decoration-none btn btn-primary text-white' onClick={handleShowForgots}>Forgot Password?</Button>  
                       
            
           </form>
@@ -263,7 +282,7 @@ function Page() {
           <form className="container mt-3 mb-3" >
             <Form.Group controlId="formBasicEmail" className="col col-sm-12 mt-3 mb-2">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" name="email" onChange={(e=>setValues({...Value, email:e.target.value}))} className="form-control" placeholder="Enter Your Email" />
+              <Form.Control type="email" name="email" onChange={(e=>setValue({...Value, email:e.target.value}))} className="form-control" placeholder="Enter Your Email" />
             </Form.Group>
         
 
@@ -275,7 +294,7 @@ function Page() {
           <Button variant="secondary" onClick={handleCloseForgot}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={handleSubmitLogin}>
+          <Button variant="primary" type="submit" onClick={handleSubmitForgot}>
             Submit
           </Button>
         </Modal.Footer>
