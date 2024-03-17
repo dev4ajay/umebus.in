@@ -44,7 +44,7 @@ const page = () => {
       Q.3 Why book bus tickets online on UMEBUS?
         </AccordionSummary>
         <AccordionDetails>
-        Booking bus tickets online on UMEBUS is increasingly becoming the preferred choice for travelers due to its numerous advantages over traditional methods.With UMEBUS, customers can book their bus tickets effortlessly from the comfort of their homes, avoiding the inconvenience of standing in long lines at bus stations or travel agencies. Online bus booking not only offers the luxury of comparing different bus schedules and operators but also presents various discount offers and exclusive deals, resulting in significant savings.Payment security is another notable feature of online booking, which ensures that your financial information is well-protected against fraud. Additionally, customers get the privilege to pick their seats, providing a customized travel experience. Online bus booking platforms give real-time updates about any changes in the bus timetable, including delays or cancellations, enabling better planning.The convenience doesn't stop here; travelers can even compare onboard amenities like charging points or snacks, further enhancing the travel experience.
+        Booking bus tickets online on UMEBUS is increasingly becoming the preferred choice for travelers due to its numerous advantages over traditional methods.With UMEBUS, customers can book their bus tickets effortlessly from the comfort of their homes, avoiding the inconvenience of standing in long lines at bus stations or travel agencies. Online bus booking not only offers the luxury of comparing different bus schedules and operators but also presents various discount offers and exclusive deals, resulting in significant savings.Payment security is another notable feature of online booking, which ensures that your financial information is well-protected against fraud. Additionally, customers get the privilege to pick their seats, providing a customized travel experience. Online bus booking platforms give real-time updates about any changes in the bus timetable, including delays or cancellations, enabling better planning.The convenience doesn&apos;t stop here; travelers can even compare onboard amenities like charging points or snacks, further enhancing the travel experience.
         </AccordionDetails>
    
       </Accordion>
@@ -73,4 +73,4 @@ const page = () => {
   )
 }
 
-export default page
+export default page;

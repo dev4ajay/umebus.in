@@ -1,1 +1,1 @@
-export const BaseUrl = "https://umebus-1.onrender.com/admin";
+export const BaseUrl = "https://umebus-2.onrender.com/admin";

@@ -27,6 +27,7 @@ function Page() {
     email: "",
     password: "",
   });
+  
   const [Value , setValue ] = useState({
     email:"",
   })
@@ -101,21 +102,27 @@ setShowLogin(false);
 
     try {
       const response = await axios.post(`${BaseUrl}/login`, LoginValue);
-      console.log(response);
+      
       setLoginValues(response.data.user);
       // Reset form data
       setLoginValues({
         email: "",
         password: ""
       });
-
+      console.log(response.status);
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
           text: "! Login successfully !",
         });
         handleCloseLogin();
+      } else if  (response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          text: "!Invalid email / password!",
+        });
       }
+      
    
     } catch (error) {
       console.error("Error occurred while submitting login:", error);
@@ -136,7 +143,7 @@ setShowLogin(false);
 
     try {
       const response = await axios.post(`${BaseUrl}/forgot-password`, Value);
-      console.log(response);
+      console.log(response.data);
       setValue(response.data.user);
       // Reset form data
       setValue({
@@ -145,6 +152,7 @@ setShowLogin(false);
       });
 
       if (response.status === 200) {
+        
         Swal.fire({
           icon: "success",
           text: "! Forgot password successfully !",
@@ -155,13 +163,7 @@ setShowLogin(false);
       console.error("Error occurred while submitting forgot password:", error);
       // Handle error scenario
     }
-    if (response.status === 400) {
-      Swal.fire({
-        icon: "success",
-        text: "!please check your  email is not login !",
-      });
- 
-    }
+  
  
   };
   
