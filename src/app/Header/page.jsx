@@ -377,7 +377,7 @@ numInputs={6}
 name="otp"
 id="otp"
       renderSeparator={<span>-</span>}
-      renderInput={(props) => <input {...props} className='otp-input' style={{width:"13%" ,height:"6vh" ,border :"1px solid green" ,boxShadow: " rgba(0, 0, 0, 0.35) 0px 5px 15px" ,textAlign:"center" , fontSize:"18px"}} />}
+      renderInput={(props) => <input {...props} className='otp-input' style={{width:"13%" ,height:"8vh",  borderRadius:"8px",border :"2px solid blue" ,boxShadow: " rgba(0, 0, 0, 0.35) 0px 5px 15px" ,textAlign:"center" , fontSize:"18px"}} />}
     />               
            
           </form>
