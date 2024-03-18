@@ -8,7 +8,7 @@ import { BiHide, BiShow } from "react-icons/bi";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { BaseUrl } from './../Baseurl';
-
+import OtpInput from 'react-otp-input';
 function Page() {
 
   const [showSignup, setShowSignup] = useState(false);
@@ -16,7 +16,13 @@ function Page() {
   const [showPNR, setShowPNR] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to control password visibility
   const [forgotPassword, setForgotPassword] = useState(false); // State for forgot password
+  const [ResetPassword, setResetPassword] = useState(false); // State for Reset password
 
+  const [Resetdata, setResetdata] = useState({
+    email: "",
+    newPassword: "",
+    otp:"",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -37,6 +43,12 @@ function Page() {
   const handleClosePNR = () => setShowPNR(false);
   const handleShowPNR = () => setShowPNR(true);
   const handleCloseForgot = () => setForgotPassword(false);
+  const handleCloseReset = ()=>setResetPassword(false)
+  
+  const handleShowReset =()=>{
+    setResetPassword(true)
+    setForgotPassword(false)
+  }
  
 
   const handleShowForgots = ()=> {
@@ -85,6 +97,7 @@ setShowLogin(false);
       }
     } catch (error) {
       console.error("Error occurred while submitting signup:", error);
+    
       // Handle error scenario
     }
   };
@@ -116,20 +129,67 @@ setShowLogin(false);
           text: "! Login successfully !",
         });
         handleCloseLogin();
-      } else if  (response.status === 400) {
-        Swal.fire({
-          icon: "error",
-          text: "!Invalid email / password!",
-        });
       }
       
    
     } catch (error) {
       console.error("Error occurred while submitting login:", error);
+      if  (error.response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          text: "!Invalid email / password!",
+        });
+      }
       // Handle error scenario
     }
   };
 
+
+  const handleSubmitReset = async (e) => {
+    e.preventDefault();
+
+    // if (Resetdata.email === '' || Resetdata.newPassword === ''  || ResetPassword.otp ) {
+    //   Swal.fire({
+    //     icon: "error",
+    //     text: "Please check all details",
+    //   });
+    //   return;
+    // }
+
+    try {
+      const response = await axios.post(`${BaseUrl}/resetpassword`, Resetdata);
+      
+      setResetdata(response.data.user);
+      // Reset form data
+      setResetdata({
+        email: "",
+        newPassword: "",
+        otp:"",
+
+      });
+      console.log(response.status);
+      if (response.status === 200) {
+        handleCloseReset();
+        Swal.fire({
+          icon: "success",
+          text: "! Reset Password  successfully !",
+
+        });
+        handleCloseForgot();
+      } 
+      
+   
+    } catch (error) {
+      console.error("Error occurred while submitting login:", error);
+      if  (error.response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          text: "!Invalid email / password!",
+        });
+      }
+      // Handle error scenario
+    }
+  };
   const handleSubmitForgot = async (e) => {
     e.preventDefault();
 
@@ -158,9 +218,16 @@ setShowLogin(false);
           text: "! Forgot password successfully !",
         });
         handleCloseLogin();
+        handleShowReset();
       }
     } catch (error) {
       console.error("Error occurred while submitting forgot password:", error);
+      if  (error.response.status === 400) {
+        Swal.fire({
+          icon: "error",
+          text: "!Invalid email / password!",
+        });
+      }
       // Handle error scenario
     }
   
@@ -272,6 +339,54 @@ setShowLogin(false);
             Close
           </Button>
           <Button variant="primary" type="submit" onClick={handleSubmitLogin}>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={ResetPassword} onHide={handleCloseReset}>
+        <Modal.Header closeButton>
+          <Modal.Title>Reset Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="container mt-3 mb-3" >
+            <Form.Group controlId="formBasicEmail" className="col col-sm-12 mt-3 mb-2">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" name="email"   onChange={(e=>setResetdata({...Resetdata, email:e.target.value}))} className="form-control" placeholder="Enter Your Email" />
+            </Form.Group>
+            <Form.Group controlId="formBasicPassword" className="col col-sm-12 mt-3 mb-2">
+              <Form.Label>New Password</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type={showPassword ? 'text' : 'password'}
+                  name="newPassword"      
+                  onChange={(e=>setResetdata({...Resetdata, newPassword:e.target.value}))}
+                  className="form-control"
+                  placeholder="Enter New Password"
+                />
+                <InputGroup.Text onClick={togglePasswordVisibility}>
+                  {showPassword ? <BiHide className="fs-3" /> : <BiShow className="fs-3" />}
+                </InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
+          
+              <Form.Label>Enter Otp</Form.Label>
+              <OtpInput
+value={Resetdata?.otp}
+onChange={(otp) => setResetdata({...Resetdata, otp: otp})}
+numInputs={6}
+name="otp"
+id="otp"
+      renderSeparator={<span>-</span>}
+      renderInput={(props) => <input {...props} className='otp-input' style={{width:"13%" ,height:"6vh" ,border :"1px solid green" ,boxShadow: " rgba(0, 0, 0, 0.35) 0px 5px 15px" ,textAlign:"center" , fontSize:"18px"}} />}
+    />               
+           
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseReset}>
+            Close
+          </Button>
+          <Button variant="primary" type="submit" onClick={handleSubmitReset}>
             Submit
           </Button>
         </Modal.Footer>
